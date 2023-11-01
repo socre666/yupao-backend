@@ -37,29 +37,30 @@ class UserServiceTest {
         String userAccount = "struggle1";
         String userPassword = "";
         String checkPassword = "123456";
-        long result = userService.userRegister(userAccount, userPassword, checkPassword);
+        String planetCode = "1";
+        long result = userService.userRegister(userAccount, userPassword, checkPassword,planetCode);
         Assertions.assertEquals(-1,result);
         userAccount = "st";
-        result = userService.userRegister(userAccount,userPassword,checkPassword);
+        result = userService.userRegister(userAccount,userPassword,checkPassword,planetCode);
         Assertions.assertEquals(-1,result);
         userAccount = "struggle1";
         userPassword = "123456";
-        result = userService.userRegister(userAccount,userPassword,checkPassword);
+        result = userService.userRegister(userAccount,userPassword,checkPassword,planetCode);
         Assertions.assertEquals(-1,result);
         userAccount = "str uggle";
         userPassword = "12345678";
-        result = userService.userRegister(userAccount,userPassword,checkPassword);
+        result = userService.userRegister(userAccount,userPassword,checkPassword,planetCode);
         Assertions.assertEquals(-1,result);
         checkPassword = "123456789";
-        result = userService.userRegister(userAccount,userPassword,checkPassword);
+        result = userService.userRegister(userAccount,userPassword,checkPassword,planetCode);
         Assertions.assertEquals(-1,result);
         userAccount="struggle";
         checkPassword="12345678";
-        result = userService.userRegister(userAccount,userPassword,checkPassword);
+        result = userService.userRegister(userAccount,userPassword,checkPassword,planetCode);
         Assertions.assertEquals(-1,result);
         userAccount="struggle1";
-        result = userService.userRegister(userAccount,userPassword,checkPassword);
-        Assertions.assertTrue(result>0);
+        result = userService.userRegister(userAccount,userPassword,checkPassword,planetCode);
+        Assertions.assertEquals(-1,result);
 
     }
 }
