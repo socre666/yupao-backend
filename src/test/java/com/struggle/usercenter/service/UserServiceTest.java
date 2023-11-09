@@ -1,7 +1,10 @@
 package com.struggle.usercenter.service;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import com.struggle.usercenter.model.domain.User;
+import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -62,5 +65,12 @@ class UserServiceTest {
         result = userService.userRegister(userAccount,userPassword,checkPassword,planetCode);
         Assertions.assertEquals(-1,result);
 
+    }
+
+    @Test
+    void searchUserByTags() {
+        List<String> tagNameList = Arrays.asList("Java","Python");
+        List<User> userList = userService.searchUserByTags(tagNameList);
+        Assert.assertNotNull(userList);
     }
 }
