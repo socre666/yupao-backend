@@ -10,11 +10,11 @@ import com.struggle.usercenter.model.domain.request.UserLoginRequest;
 import com.struggle.usercenter.model.domain.request.UserRegisterRequest;
 import com.struggle.usercenter.service.UserService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +27,8 @@ import static com.struggle.usercenter.contant.UserConstant.USER_LOGIN_STATE;
  */
 @RestController
 @RequestMapping("/user")
+//默认允许所有的域名连接（解决前后端跨域问题）,这里设置了只允许前端（"http://localhost:5173"）访问
+@CrossOrigin(origins = {"http://localhost:5173"})
 public class UserController {
     @Resource
     private UserService userService;
@@ -96,6 +98,16 @@ public class UserController {
         List<User> list = userList.stream().map(user -> userService.getSafetyUser(user)).collect(Collectors.toList());
         return ResultUtils.success(list);
     }
+    @GetMapping("/search/tags")
+    public BaseResponse<List<User>> searchUsersByTags(@RequestParam(required = false) List<String> tagNameList){
+        if(CollectionUtils.isEmpty(tagNameList)){
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        List<User> userList = userService.searchUserByTags(tagNameList);
+        return ResultUtils.success(userList);
+
+    }
+
     @PostMapping("/delete")
 //    @DeleteMapping("/delete/{id}")
     public BaseResponse<Boolean> deleteUsers(@RequestBody long id,HttpServletRequest request){
