@@ -1,20 +1,15 @@
 package com.struggle.usercenter.service;
 
-import com.struggle.usercenter.model.domain.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.struggle.usercenter.model.domain.User;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-
-import static com.struggle.usercenter.contant.UserConstant.ADMIN_ROLE;
-import static com.struggle.usercenter.contant.UserConstant.USER_LOGIN_STATE;
 
 /**
  * 用户服务
  */
 public interface UserService extends IService<User> {
-
-
 
     /**
      * 用户注册

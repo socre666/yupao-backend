@@ -1,6 +1,5 @@
 package com.struggle.usercenter.service;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import com.struggle.usercenter.model.domain.User;
