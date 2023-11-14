@@ -1,6 +1,8 @@
 package com.struggle.usercenter.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.struggle.usercenter.common.BaseResponse;
 import com.struggle.usercenter.common.ErrorCode;
 import com.struggle.usercenter.common.ResultUtils;
@@ -18,7 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.struggle.usercenter.contant.UserConstant.ADMIN_ROLE;
 import static com.struggle.usercenter.contant.UserConstant.USER_LOGIN_STATE;
 
 /**
@@ -107,6 +108,12 @@ public class UserController {
         List<User> userList = userService.searchUserByTags(tagNameList);
         return ResultUtils.success(userList);
 
+    }
+    @GetMapping("/recommend")
+    public BaseResponse<Page<User>> recommendUsers(long pageSize,long pageNum,HttpServletRequest request){
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        Page<User> userList = userService.page(new Page<>(pageNum,pageSize),queryWrapper);
+        return ResultUtils.success(userList);
     }
     @PostMapping("/update")
     public BaseResponse<Integer> updateUser(@RequestBody User user,HttpServletRequest request){

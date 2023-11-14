@@ -6,9 +6,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.struggle.usercenter.common.ErrorCode;
 import com.struggle.usercenter.exception.BusinessException;
+import com.struggle.usercenter.mapper.UserMapper;
 import com.struggle.usercenter.model.domain.User;
 import com.struggle.usercenter.service.UserService;
-import com.struggle.usercenter.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -72,7 +72,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         //账户不能重复
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("userAccount", userAccount);
-        int count = userMapper.selectCount(queryWrapper);
+        long count = userMapper.selectCount(queryWrapper);
         if (count > 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "用户账号重复");
         }
@@ -153,6 +153,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         safetyUser.setUserAccount(originUser.getUserAccount());
         safetyUser.setAvatarUrl(originUser.getAvatarUrl());
         safetyUser.setGender(originUser.getGender());
+        safetyUser.setProfile(originUser.getProfile());
         safetyUser.setPhone(originUser.getPhone());
         safetyUser.setEmail(originUser.getEmail());
         safetyUser.setPlanetCode(originUser.getPlanetCode());
