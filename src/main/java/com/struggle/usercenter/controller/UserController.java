@@ -11,13 +11,17 @@ import com.struggle.usercenter.model.domain.User;
 import com.struggle.usercenter.model.domain.request.UserLoginRequest;
 import com.struggle.usercenter.model.domain.request.UserRegisterRequest;
 import com.struggle.usercenter.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static com.struggle.usercenter.contant.UserConstant.USER_LOGIN_STATE;
@@ -32,9 +36,12 @@ import static com.struggle.usercenter.contant.UserConstant.USER_LOGIN_STATE;
 //allowCredentials: 指定是否允许携带凭据（如 cookies、HTTP 认证）进行跨域请求。设置为 true 表示允许，设置为 false 表示不允许。
 //@CrossOrigin(origins = {"http://localhost:5173"}, allowCredentials = "true")
 @CrossOrigin(origins = {"http://localhost:3000"}, allowCredentials = "true")
+@Slf4j
 public class UserController {
     @Resource
     private UserService userService;
+    @Resource
+    private RedisTemplate<String,Object> redisTemplate;
     @PostMapping("/register")
     public BaseResponse<Long> userRegister(@RequestBody UserRegisterRequest userRegisterRequest){
         if(userRegisterRequest == null){
@@ -112,9 +119,25 @@ public class UserController {
     }
     @GetMapping("/recommend")
     public BaseResponse<Page<User>> recommendUsers(long pageSize,long pageNum,HttpServletRequest request){
+        User loginUser = userService.getLoginUser(request);
+
+        String redisKey = String.format("yupao:user:recommend:%s",loginUser.getId());
+        ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
+        //如果有缓存，直接读缓存
+        Page<User> userPage =(Page<User>)redisTemplate.opsForValue().get(redisKey);
+        if(userPage!=null){
+            return ResultUtils.success(userPage);
+        }
+        //无缓冲，查数据库
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        Page<User> userList = userService.page(new Page<>(pageNum,pageSize),queryWrapper);
-        return ResultUtils.success(userList);
+        userPage = userService.page(new Page<>(pageNum,pageSize),queryWrapper);
+        //写缓存
+        try {
+            valueOperations.set(redisKey,userPage,30000, TimeUnit.MINUTES);
+        } catch (Exception e) {
+            log.error("redis set key error",e);
+        }
+        return ResultUtils.success(userPage);
     }
     @PostMapping("/update")
     public BaseResponse<Integer> updateUser(@RequestBody User user,HttpServletRequest request){
