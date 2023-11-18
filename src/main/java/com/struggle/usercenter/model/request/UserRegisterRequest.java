@@ -1,4 +1,4 @@
-package com.struggle.usercenter.model.domain.request;
+package com.struggle.usercenter.model.request;
 
 import lombok.Data;
 
