@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.struggle.usercenter.mapper.TeamMapper">
+<mapper namespace="com.struggle.yupao.mapper.TeamMapper">
 
-    <resultMap id="BaseResultMap" type="com.struggle.usercenter.model.domain.Team">
+    <resultMap id="BaseResultMap" type="com.struggle.yupao.model.domain.Team">
             <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="name" column="name" jdbcType="VARCHAR"/>
             <result property="description" column="description" jdbcType="VARCHAR"/>
