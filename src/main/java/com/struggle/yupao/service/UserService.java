@@ -1,7 +1,9 @@
 package com.struggle.yupao.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.struggle.yupao.common.BaseResponse;
 import com.struggle.yupao.model.domain.User;
+import com.struggle.yupao.model.vo.UserVO;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -82,4 +84,12 @@ public interface UserService extends IService<User> {
      * @return
      */
     boolean isAdmin(User loginUser);
+
+    /**
+     * 匹配用户
+     * @param num
+     * @param loginUser
+     * @return
+     */
+    List<User> matchUsers(long num, User loginUser);
 }

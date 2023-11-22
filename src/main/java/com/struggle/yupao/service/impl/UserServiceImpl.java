@@ -3,12 +3,15 @@ package com.struggle.yupao.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.struggle.yupao.common.ErrorCode;
 import com.struggle.yupao.exception.BusinessException;
 import com.struggle.yupao.mapper.UserMapper;
 import com.struggle.yupao.model.domain.User;
+import com.struggle.yupao.model.vo.UserVO;
 import com.struggle.yupao.service.UserService;
+import com.struggle.yupao.utils.AlgorithmUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -17,13 +20,11 @@ import org.springframework.util.DigestUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.struggle.yupao.contant.UserConstant.ADMIN_ROLE;
 import static com.struggle.yupao.contant.UserConstant.USER_LOGIN_STATE;
@@ -264,6 +265,36 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         //鉴权，仅管理员可查询
         return loginUser != null && loginUser.getUserRole() == ADMIN_ROLE;
     }
+
+    @Override
+    public List<User> matchUsers(long num, User loginUser) {
+        List<User> userList = this.list();
+        String tags = loginUser.getTags();
+        Gson gson = new Gson();
+        List<String> tagList = gson.fromJson(tags, new TypeToken<List<String>>() {
+        }.getType());
+        //用户列表的下标 => 相似度
+        SortedMap<Integer,Long> indexDistanceMap = new TreeMap<>();
+        for (int i = 0; i < userList.size(); i++) {
+            User user = userList.get(i);
+            String userTags = user.getTags();
+            //无标签
+            if(StringUtils.isBlank(userTags)){
+                continue;
+            }
+            List<String> userTagList = gson.fromJson(userTags, new TypeToken<List<String>>() {
+            }.getType());
+            //计算分数
+            long distance = AlgorithmUtils.minDistance(tagList, userTagList);
+            indexDistanceMap.put(i,distance);
+        }
+        List<Integer> maxDistanceIndexList = indexDistanceMap.keySet().stream().limit(num).collect(Collectors.toList());
+        List<User> userVOList = maxDistanceIndexList.stream()
+                .map(index -> getSafetyUser(userList.get(index)))
+                .collect(Collectors.toList());
+        return userVOList;
+    }
+
     /**
      * 根据标签搜索用户(SQL 查询版)方式二
      *
