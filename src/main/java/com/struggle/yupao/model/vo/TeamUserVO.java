@@ -19,6 +19,10 @@ public class TeamUserVO implements Serializable {
     private Long id;
 
     /**
+     * 队伍头像
+     */
+    private String teamAvatarUrl;
+    /**
      * 队伍名称
      */
     private String name;

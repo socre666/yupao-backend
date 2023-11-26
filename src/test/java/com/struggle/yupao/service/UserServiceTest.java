@@ -40,28 +40,28 @@ class UserServiceTest {
         String userPassword = "";
         String checkPassword = "123456";
         String planetCode = "1";
-        long result = userService.userRegister(userAccount, userPassword, checkPassword,planetCode);
+        long result = userService.userRegister(userAccount, userPassword, checkPassword);
         Assertions.assertEquals(-1,result);
         userAccount = "st";
-        result = userService.userRegister(userAccount,userPassword,checkPassword,planetCode);
+        result = userService.userRegister(userAccount,userPassword,checkPassword);
         Assertions.assertEquals(-1,result);
         userAccount = "struggle1";
         userPassword = "123456";
-        result = userService.userRegister(userAccount,userPassword,checkPassword,planetCode);
+        result = userService.userRegister(userAccount,userPassword,checkPassword);
         Assertions.assertEquals(-1,result);
         userAccount = "str uggle";
         userPassword = "12345678";
-        result = userService.userRegister(userAccount,userPassword,checkPassword,planetCode);
+        result = userService.userRegister(userAccount,userPassword,checkPassword);
         Assertions.assertEquals(-1,result);
         checkPassword = "123456789";
-        result = userService.userRegister(userAccount,userPassword,checkPassword,planetCode);
+        result = userService.userRegister(userAccount,userPassword,checkPassword);
         Assertions.assertEquals(-1,result);
         userAccount="struggle";
         checkPassword="12345678";
-        result = userService.userRegister(userAccount,userPassword,checkPassword,planetCode);
+        result = userService.userRegister(userAccount,userPassword,checkPassword);
         Assertions.assertEquals(-1,result);
         userAccount="struggle1";
-        result = userService.userRegister(userAccount,userPassword,checkPassword,planetCode);
+        result = userService.userRegister(userAccount,userPassword,checkPassword);
         Assertions.assertEquals(-1,result);
 
     }

@@ -9,7 +9,7 @@
             <result property="username" column="username" jdbcType="VARCHAR"/>
             <result property="userAccount" column="userAccount" jdbcType="VARCHAR"/>
             <result property="avatarUrl" column="avatarUrl" jdbcType="VARCHAR"/>
-            <result property="gender" column="gender" jdbcType="TINYINT"/>
+            <result property="gender" column="gender" jdbcType="NCHAR"/>
             <result property="profile" column="profile" jdbcType="VARCHAR"/>
             <result property="userPassword" column="userPassword" jdbcType="VARCHAR"/>
             <result property="phone" column="phone" jdbcType="VARCHAR"/>
@@ -19,7 +19,6 @@
             <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
             <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
             <result property="userRole" column="userRole" jdbcType="INTEGER"/>
-            <result property="planetCode" column="planetCode" jdbcType="VARCHAR"/>
             <result property="tags" column="tags" jdbcType="VARCHAR"/>
     </resultMap>
 
@@ -28,7 +27,7 @@
         avatarUrl,gender,profile,
         userPassword,phone,email,
         userStatus,createTime,updateTime,
-        isDelete,userRole,planetCode,
+        isDelete,userRole,
         tags
     </sql>
 </mapper>

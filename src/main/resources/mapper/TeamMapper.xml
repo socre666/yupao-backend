@@ -6,6 +6,7 @@
 
     <resultMap id="BaseResultMap" type="com.struggle.yupao.model.domain.Team">
             <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="teamAvatarUrl" column="teamAvatarUrl" jdbcType="VARCHAR"/>
             <result property="name" column="name" jdbcType="VARCHAR"/>
             <result property="description" column="description" jdbcType="VARCHAR"/>
             <result property="maxNum" column="maxNum" jdbcType="INTEGER"/>
@@ -19,7 +20,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,name,description,
+        id,teamAvatarUrl,name,description,
         maxNum,expireTime,userId,
         status,password,createTime,
         updateTime,isDelete

@@ -18,6 +18,10 @@ public class Team implements Serializable {
      */
     @TableId(type = IdType.AUTO)
     private Long id;
+    /**
+     * 队伍头像
+     */
+    private String teamAvatarUrl;
 
     /**
      * 队伍名称

@@ -10,7 +10,7 @@ spring:
     password: 123456
   #session 失效时间(分钟)
   session:
-    timeout: 86400
+    timeout: 1
     store-type: redis
   # 支持 swagger3
   mvc:
@@ -23,16 +23,21 @@ spring:
     database: 2
 
 server:
-  port: 8080
+  port: 8081
   servlet:
     context-path: /api
     session:
-      cookie:
-        domain: localhost
+      timeout: 1
+#      cookie:
+#        domain: 101.133.136.159
+#        secure: true
+#        same-site: none
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: false
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    db-config:
+      timezone: GMT+8
   global-config:
     db-config:
       logic-delete-field: isDelete # 全局逻辑删除的实体字段名(since 3.3.0,配置后可以忽略不配置步骤2)

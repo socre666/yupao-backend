@@ -35,7 +35,7 @@ public class InsertUsersTest {
             user.setUsername("假用户");
             user.setUserAccount("fakeStruggle");
             user.setAvatarUrl("https://fastly.jsdelivr.net/npm/@vant/assets/ipad.jpeg");
-            user.setGender(0);
+            user.setGender("男");
             user.setUserPassword("12345678");
             user.setPhone("123");
             user.setEmail("123@qq.com");
@@ -43,7 +43,6 @@ public class InsertUsersTest {
             user.setUserStatus(0);
             user.setIsDelete(0);
             user.setUserRole(0);
-            user.setPlanetCode("11111");
             userList.add(user);
         }
         userService.saveBatch(userList,100);
@@ -70,7 +69,7 @@ public class InsertUsersTest {
                 user.setUsername("假用户");
                 user.setUserAccount("fakeStruggle");
                 user.setAvatarUrl("https://fastly.jsdelivr.net/npm/@vant/assets/ipad.jpeg");
-                user.setGender(0);
+                user.setGender("男");
                 user.setUserPassword("12345678");
                 user.setPhone("123");
                 user.setEmail("123@qq.com");
@@ -78,7 +77,6 @@ public class InsertUsersTest {
                 user.setUserStatus(0);
                 user.setIsDelete(0);
                 user.setUserRole(0);
-                user.setPlanetCode("11111");
                 userList.add(user);
                 if (j % batchSize == 0){
                     break;

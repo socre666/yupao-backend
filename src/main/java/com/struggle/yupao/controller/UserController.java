@@ -34,7 +34,6 @@ import static com.struggle.yupao.contant.UserConstant.USER_LOGIN_STATE;
 @RequestMapping("/user")
 //默认允许所有的域名连接（解决前后端跨域问题）,这里设置了只允许前端（"http://localhost:5173"）访问
 //allowCredentials: 指定是否允许携带凭据（如 cookies、HTTP 认证）进行跨域请求。设置为 true 表示允许，设置为 false 表示不允许。
-//@CrossOrigin(origins = {"http://localhost:5173"}, allowCredentials = "true")
 @CrossOrigin(origins = {"http://localhost:3000"}, allowCredentials = "true")
 @Slf4j
 public class UserController {
@@ -45,17 +44,15 @@ public class UserController {
     @PostMapping("/register")
     public BaseResponse<Long> userRegister(@RequestBody UserRegisterRequest userRegisterRequest){
         if(userRegisterRequest == null){
-//            return ResultUtils.error(ErrorCode.PARAMS_ERROR);
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         String userAccount = userRegisterRequest.getUserAccount();
         String userPassword = userRegisterRequest.getUserPassword();
         String checkPassword = userRegisterRequest.getCheckPassword();
-        String planetCode = userRegisterRequest.getPlanetCode();
-        if(StringUtils.isAnyBlank(userAccount,userPassword,checkPassword,planetCode)){
+        if(StringUtils.isAnyBlank(userAccount,userPassword,checkPassword)){
             return ResultUtils.error(ErrorCode.PARAMS_ERROR);
         }
-        long result = userService.userRegister(userAccount, userPassword, checkPassword, planetCode);
+        long result = userService.userRegister(userAccount, userPassword, checkPassword);
         return ResultUtils.success(result);
     }
 
@@ -147,6 +144,7 @@ public class UserController {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         User loginUser = userService.getLoginUser(request);
+
         int result = userService.updateUser(user,loginUser);
         return ResultUtils.success(result);
     }
