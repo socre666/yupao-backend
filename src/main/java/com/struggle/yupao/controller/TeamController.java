@@ -2,6 +2,7 @@ package com.struggle.yupao.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.qiniu.common.QiniuException;
 import com.struggle.yupao.common.BaseResponse;
 import com.struggle.yupao.common.DeleteRequest;
 import com.struggle.yupao.common.ErrorCode;
@@ -19,12 +20,16 @@ import com.struggle.yupao.model.vo.TeamUserVO;
 import com.struggle.yupao.service.TeamService;
 import com.struggle.yupao.service.UserService;
 import com.struggle.yupao.service.UserTeamService;
+import com.struggle.yupao.utils.QiniuOssUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +41,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/team")
-//默认允许所有的域名连接（解决前后端跨域问题）,这里设置了只允许前端（"http://localhost:5173"）访问
+//默认允许所有的域名连接（解决前后端跨域问题）,这里设置了只允许前端（"http://localhost:3000"）访问
 //allowCredentials: 指定是否允许携带凭据（如 cookies、HTTP 认证）进行跨域请求。设置为 true 表示允许，设置为 false 表示不允许。
 @CrossOrigin(origins = {"http://localhost:3000"}, allowCredentials = "true")
 @Slf4j

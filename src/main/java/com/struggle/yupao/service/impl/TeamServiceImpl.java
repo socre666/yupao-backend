@@ -28,6 +28,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -110,6 +111,7 @@ public class TeamServiceImpl extends ServiceImpl<TeamMapper, Team>
         if(!result || teamId ==null){
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "创建队伍失败");
         }
+
         //五，输入用户 => 队伍关系到关系表
         UserTeam userTeam = new UserTeam();
         userTeam.setUserId(userId);
@@ -160,13 +162,15 @@ public class TeamServiceImpl extends ServiceImpl<TeamMapper, Team>
             //根据状态来查询
             Integer status = teamQuery.getStatus();
             TeamStatusEnum statusEnum = TeamStatusEnum.getEnumByValue(status);
-            if(statusEnum == null){
-                statusEnum = TeamStatusEnum.PUBLIC;
-            }
+//            if(statusEnum == null){
+//                statusEnum = TeamStatusEnum.PUBLIC;
+//            }
 //            if(!isAdmin && statusEnum.equals(TeamStatusEnum.PRIVATE)){
 //                throw new BusinessException(ErrorCode.NO_AUTH);
 //            }
-            queryWrapper.eq("status",statusEnum.getValue());
+            if(statusEnum != null){
+                queryWrapper.eq("status",statusEnum.getValue());
+            }
 
         }
         //不展示已过期的队伍

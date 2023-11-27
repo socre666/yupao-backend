@@ -1,6 +1,7 @@
 package com.struggle.yupao.model.request;
 
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -13,6 +14,11 @@ import java.util.Date;
 public class TeamAddRequest implements Serializable {
 
     private static final long serialVersionUID = -3630710365564735954L;
+
+    /**
+     * 队伍头像
+     */
+    private String teamAvatarUrl;
 
     /**
      * 队伍名称

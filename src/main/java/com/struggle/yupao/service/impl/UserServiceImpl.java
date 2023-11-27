@@ -15,6 +15,7 @@ import com.struggle.yupao.utils.AlgorithmUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math3.util.Pair;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.DigestUtils;
@@ -300,6 +301,22 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             finalUserList.add(userIdUserListMap.get(userId).get(0));
         }
         return finalUserList;
+    }
+
+    /**
+     * 查询所有脱敏之后的用户
+     * @return
+     */
+    @Override
+    public List<UserVO> userList() {
+        List<User> userList = this.list();
+        ArrayList<UserVO> userVOList = new ArrayList<>();
+        for (User user : userList) {
+            UserVO userVO = new UserVO();
+            BeanUtils.copyProperties(user,userVO);
+            userVOList.add(userVO);
+        }
+        return userVOList;
     }
 
     /**

@@ -19,6 +19,12 @@ public class TeamUpdateRequest implements Serializable {
     private Long id;
 
     /**
+     * 队伍头像
+     */
+    private String teamAvatarUrl;
+
+
+    /**
      * 队伍名称
      */
     private String name;
@@ -33,6 +39,10 @@ public class TeamUpdateRequest implements Serializable {
      * 过期时间
      */
     private Date expireTime;
+    /**
+     * 最大人数
+     */
+    private Integer maxNum;
 
     /**
      * 0 - 公开，1 - 私有，2 - 加密

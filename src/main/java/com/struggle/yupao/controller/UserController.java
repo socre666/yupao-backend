@@ -14,14 +14,12 @@ import com.struggle.yupao.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static com.struggle.yupao.contant.UserConstant.USER_LOGIN_STATE;
@@ -117,25 +115,35 @@ public class UserController {
     //todo 推荐多个，未实现
     @GetMapping("/recommend")
     public BaseResponse<Page<User>> recommendUsers(long pageSize,long pageNum,HttpServletRequest request){
-        User loginUser = userService.getLoginUser(request);
+//        User loginUser = userService.getLoginUser(request);
 
-        String redisKey = String.format("yupao:user:recommend:%s",loginUser.getId());
-        ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
-        //如果有缓存，直接读缓存
-        Page<User> userPage =(Page<User>)redisTemplate.opsForValue().get(redisKey);
-        if(userPage!=null){
-            return ResultUtils.success(userPage);
-        }
-        //无缓冲，查数据库
+//        String redisKey = String.format("yupao:user:recommend:%s",loginUser.getId());
+//        ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
+//        //如果有缓存，直接读缓存
+//        Page<User> userPage =(Page<User>)redisTemplate.opsForValue().get(redisKey);
+//        if(userPage!=null){
+//            return ResultUtils.success(userPage);
+//        }
+        //无缓存，查数据库
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        userPage = userService.page(new Page<>(pageNum,pageSize),queryWrapper);
+        Page<User> userPage = userService.page(new Page<>(pageNum,pageSize),queryWrapper);
         //写缓存
-        try {
-            valueOperations.set(redisKey,userPage,30000, TimeUnit.MINUTES);
-        } catch (Exception e) {
-            log.error("redis set key error",e);
-        }
+//        try {
+//            valueOperations.set(redisKey,userPage,30000, TimeUnit.MINUTES);
+//        } catch (Exception e) {
+//            log.error("redis set key error",e);
+//        }
         return ResultUtils.success(userPage);
+    }
+
+    /**
+     * 查询所有脱敏后的用户
+     * @return
+     */
+    @GetMapping("/list")
+    public BaseResponse<List<UserVO>> userList(){
+        List<UserVO> userList = userService.userList();
+        return ResultUtils.success(userList);
     }
     @PostMapping("/update")
     public BaseResponse<Integer> updateUser(@RequestBody User user,HttpServletRequest request){

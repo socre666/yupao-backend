@@ -91,4 +91,10 @@ public interface UserService extends IService<User> {
      * @return
      */
     List<User> matchUsers(long num, User loginUser);
+
+    /**
+     * 查询所有的用户
+     * @return
+     */
+    List<UserVO> userList();
 }

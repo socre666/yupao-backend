@@ -10,7 +10,7 @@ spring:
     password: 123456
   #session 失效时间(分钟)
   session:
-    timeout: 1
+    timeout: 86400
     store-type: redis
   # 支持 swagger3
   mvc:
@@ -26,10 +26,10 @@ server:
   port: 8081
   servlet:
     context-path: /api
-    session:
-      timeout: 1
+#    session:
+#      timeout: 86400
 #      cookie:
-#        domain: 101.133.136.159
+#        domain:
 #        secure: true
 #        same-site: none
 mybatis-plus:
@@ -43,3 +43,4 @@ mybatis-plus:
       logic-delete-field: isDelete # 全局逻辑删除的实体字段名(since 3.3.0,配置后可以忽略不配置步骤2)
       logic-delete-value: 1 # 逻辑已删除值(默认为 1)
       logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+
