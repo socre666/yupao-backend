@@ -43,7 +43,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/team")
 //默认允许所有的域名连接（解决前后端跨域问题）,这里设置了只允许前端（"http://localhost:3000"）访问
 //allowCredentials: 指定是否允许携带凭据（如 cookies、HTTP 认证）进行跨域请求。设置为 true 表示允许，设置为 false 表示不允许。
-@CrossOrigin(origins = {"http://localhost:3000"}, allowCredentials = "true")
+//@CrossOrigin(origins = {"http://localhost:3000"}, allowCredentials = "true")
 @Slf4j
 public class TeamController {
     @Resource

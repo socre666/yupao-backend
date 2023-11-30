@@ -4,26 +4,19 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        //设置允许跨域的路径
+        // 覆盖所有请求
         registry.addMapping("/**")
-                //设置允许跨域请求的域名
-                //当**Credentials为true时，**Origin不能为星号，需为
-                //具体的ip地址【如果接口不带cookie,ip无需设成具体ip】
-                .allowedOrigins("http://localhost:5173",
-                        "http://127.0.0.1:5173", "http://127.0.0.1:8082", "http://127.0.0.1:3000")
-                .allowedOriginPatterns("http://localhost:5173",
-                        "http://127.0.0.1:5173", "http://127.0.0.1:8082", "http://127.0.0.1:3000")
-                //是否允许证书 不再默认开启
+                // 允许发送 Cookie
                 .allowCredentials(true)
+                // 放行哪些域名（必须用 patterns，否则 * 会和 allowCredentials 冲突）
+                .allowedOriginPatterns("http://struggle.net.cn", "http://localhost:3000/")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
-                //设置允许的方法
-                .allowedMethods("*")
-                //跨域允许时间
+                .exposedHeaders("*")
                 .maxAge(3600);
     }
 }

@@ -9,7 +9,8 @@ import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
- 
+import org.springframework.beans.factory.annotation.Value;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -23,16 +24,20 @@ public class QiniuOssUtils {
     /**
      * 存储空间名
      */
-    private static final String BUCKET = "xx";
+    @Value("${qiniu.client.BUCKET}")
+    private String BUCKET;
     /**
      * accessKey和secretKey
      */
-    private static final String ACCESS_KEY = "xx";
-    private static final String SECRET_KEY = "xx";
+    @Value("${qiniu.client.ACCESS_KEY}")
+    private String ACCESS_KEY;
+    @Value("${qiniu.client.SECRET_KEY}")
+    private String SECRET_KEY;
     /**
      * 外网访问地址(内置域名有效期只有30天)
      */
-    private static final String BASE_URL = "xxxx";
+    @Value("${qiniu.client.BASE_URL}")
+    private String BASE_URL;
  
     /**
      * 上传管理器

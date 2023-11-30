@@ -11,7 +11,7 @@ import java.io.InputStream;
 
 @Controller
 @RequestMapping("upload")
-@CrossOrigin(origins = {"http://localhost:3000"}, allowCredentials = "true")
+//@CrossOrigin(origins = {"http://localhost:3000"}, allowCredentials = "true")
 public class uploadImgController {
     @PostMapping("/img")
     @ResponseBody
